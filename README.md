@@ -1,11 +1,11 @@
 # ECSE429
 ECSE 429 project repo!!
 
-Example of test code with Java HTTP Client: 
+Example of test code with Junit: 
 
-<@Test
+@Test
 public void givenUserDoesNotExists_whenUserInfoIsRetrieved_then404IsReceived()
-  throws ClientProtocolException, IOException {
+ throws ClientProtocolException, IOException {
  
     // Given
     String name = RandomStringUtils.randomAlphabetic( 8 );
@@ -18,5 +18,5 @@ public void givenUserDoesNotExists_whenUserInfoIsRetrieved_then404IsReceived()
     assertThat(
       httpResponse.getStatusLine().getStatusCode(),
       equalTo(HttpStatus.SC_NOT_FOUND));
-}>
+}
 
