@@ -55,8 +55,8 @@ public class TestProjects {
     public void test_delete_todo_category_with_id_f() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("http://localhost:4567/todos/1/categoties/0")).DELETE()
-        .build();
+                .uri(URI.create("http://localhost:4567/todos/1/categoties/0")).DELETE()
+                .build();
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
         System.out.println(response.body());
@@ -124,7 +124,7 @@ public class TestProjects {
         System.out.println(response.body());
         assertEquals(400,response.statusCode());
         String error = "{\"errorMessages\":[\"Invalid Creation: Failed Validation: Not allowed to create with id\"]}";
-
+        System.out.println(response.body());
         assertEquals(error, response.body());
     }
 
@@ -243,5 +243,58 @@ public class TestProjects {
     // TODO: DELETE /projects/:id/categories/:id
 
 
+    // Sofia
+    @Test
+    public void test_todos_post() throws IOException, InterruptedException {
+
+        var value = new HashMap<String, String>() {{
+            put("id", "9");
+            put("title", "test_todos");
+            put("doneStatus", "false");
+            put("description", "testing todos POST");
+        }};
+
+        var om = new ObjectMapper();
+        String requestBody = om.writeValueAsString(value);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:4567/todos"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+        assertEquals(400, response.statusCode());
+        //TODO: check it's the correct err msg
+        //String error = "{\"errorMessages\":[\"I
+    }
+
+    // Mahroo
+    @Test
+    public void test() throws IOException, InterruptedException{
+        var values = new HashMap<String, String>() {{
+            put("description","HELLO");
+            put("id","2");
+            put("title","Office");
+        }};
+
+        var objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(values);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:4567/categories"))
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
+                .build();
+
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+        System.out.println(response.statusCode());
+        assertEquals(405,response.statusCode());
+
+    }
 
 }
