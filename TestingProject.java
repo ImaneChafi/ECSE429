@@ -53,7 +53,7 @@ public class TestingProject {
 
         System.out.println(response.body());
         System.out.println(response.statusCode());
-        assertEquals(400,response.statusCode());
+        assertEquals(404,response.statusCode());
     
 	}
 	@Test
@@ -154,7 +154,7 @@ public class TestingProject {
 
         System.out.println(response.body());
         System.out.println(response.statusCode());
-        assertEquals(405,response.statusCode());
+        assertEquals(400,response.statusCode());
     
 	}
 	
@@ -195,7 +195,7 @@ public class TestingProject {
 
         System.out.println(response.body());
         System.out.println(response.statusCode());
-        assertEquals(400,response.statusCode());
+        assertEquals(201,response.statusCode());
     
 	}
 	@Test
