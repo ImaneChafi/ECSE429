@@ -10,8 +10,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static java.lang.System.exit;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestProjects {
 
@@ -33,7 +33,7 @@ public class TestProjects {
         } catch (IOException e) {
             final JFrame frame = new JFrame();
             JOptionPane.showMessageDialog(frame, "make sure you have start running the server.");
-//            System.out.println("make sure you have start running the server");
+            exit(-1);
         }
     }
 
@@ -63,9 +63,11 @@ public class TestProjects {
                 .build();
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+//        System.out.println(response.body());
         assertEquals(404,response.statusCode());
     }
+
+    // TODO need a success delete test, not the 404
 
     /*
     Determine the status of a web page when accessing projects
@@ -92,7 +94,7 @@ public class TestProjects {
                 .build();
         // return a list of objects with /projects
         HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response_str.body());
+//        System.out.println(response_str.body());
         HttpResponse<Void> response = client.send(request,HttpResponse.BodyHandlers.discarding());
         assertEquals(200,response.statusCode());
         assertNotNull(response_str);
@@ -108,9 +110,7 @@ public class TestProjects {
         var request = HttpRequest.newBuilder(URI.create("http://localhost:4567/projects"))
                 .method("HEAD", HttpRequest.BodyPublishers.noBody())
                 .build();
-        HttpResponse<Void> response = client.send(request,
-                HttpResponse.BodyHandlers.discarding());
-        HttpHeaders headers = response.headers();
+        HttpResponse<Void> response = client.send(request,HttpResponse.BodyHandlers.discarding());
         assertEquals(200,response.statusCode());
     }
 
@@ -137,18 +137,18 @@ public class TestProjects {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+        HttpResponse<String> response_str = client.send(request,HttpResponse.BodyHandlers.ofString());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         assertEquals(400,response.statusCode());
         String error = "{\"errorMessages\":[\"Invalid Creation: Failed Validation: Not allowed to create with id\"]}";
-        System.out.println(response.body());
-        assertEquals(error, response.body());
+//        System.out.println(response_str.body());
+        assertEquals(error, response_str.body());
     }
 
     /*
     POST /projects
     post fails with error message --> Failed Validation: active should be BOOLEAN, completed should be BOOLEAN
+    to resolve this problem, simply remove the "" surrounding the boolean variables
      */
     @Test
     public void test_projects_post_fail_bool() throws IOException, InterruptedException {
@@ -168,13 +168,12 @@ public class TestProjects {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+        HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+//        System.out.println(response_str.body());
         assertEquals(400,response.statusCode());
         String error = "{\"errorMessages\":[\"Failed Validation: active should be BOOLEAN, completed should be BOOLEAN\"]}";
-
-        assertEquals(error, response.body());
+        assertEquals(error, response_str.body());
     }
 
     /*
@@ -200,34 +199,9 @@ public class TestProjects {
                 .build();
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+//        System.out.println(response.body());
         assertEquals(201,response.statusCode());
-    }
-
-    /*
-    post with xml
-    NOT DONE YET, DON'T KNOW HOW TO PASS IN XML FORMAT
-     */
-    @Test
-    public void test_projects_id_post() throws IOException, InterruptedException {
-        var value = new HashMap<String, String>() {{
-            put("title", "hello 429");
-            put("completed", "false");
-            put("active", "true");
-            put("description", "hello world");
-        }};
-        ObjectMapper om = new ObjectMapper();
-        String requestBody = om.writeValueAsString(value);
-
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:4567/projects"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+        assertNotNull(response);
     }
 
     /*
@@ -240,11 +214,9 @@ public class TestProjects {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:4567/projects/1")).GET()
                 .build();
-        HttpResponse<String> response_str = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response_str.body());
-        HttpResponse<Void> response = client.send(request,
-                HttpResponse.BodyHandlers.discarding());
+        HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response_str.body());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         assertEquals(200,response.statusCode());
         assertNotNull(response_str.body());
     }
@@ -259,10 +231,9 @@ public class TestProjects {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:4567/projects/1000")).GET()
                 .build();
-        HttpResponse<Void> response = client.send(request,
-                HttpResponse.BodyHandlers.discarding());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response_str.body());
+//        System.out.println(response_str.body());
         String error = "{\"errorMessages\":[\"Could not find an instance with projects/1000\"]}";
         assertEquals(404,response.statusCode());
         assertEquals(error, response_str.body());
@@ -283,18 +254,16 @@ public class TestProjects {
         assertEquals(200,response.statusCode());
     }
 
-    // TODO: POST/PUT /projects/:id for success case --> using xml format to do it
     /*
     POST /projects/:id
-    failed due to boolean data type with json format input
      */
     @Test
     public void test_projects_post_id() throws IOException, InterruptedException {
 
-        var body = new HashMap<String, String>(){{
+        var body = new HashMap<String, Object>(){{
             put("title", "test1");
-            put("completed", "false");
-            put("active", "true");
+            put("completed", false);
+            put("active", true);
             put("description", "hello world");
         }};
 
@@ -307,13 +276,12 @@ public class TestProjects {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-        System.out.println(response.statusCode());
-        assertEquals(400,response.statusCode());
-        String error = "{\"errorMessages\":[\"Failed Validation: active should be BOOLEAN, completed should be BOOLEAN\"]}";
-        assertEquals(error, response.body());
+        HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+//        System.out.println(response_str.body());
+//        System.out.println(response.statusCode());
+        assertEquals(200,response.statusCode());
+        assertNotNull(response_str);
     }
 
     /*
@@ -341,11 +309,10 @@ public class TestProjects {
         HttpResponse<String> response_str = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
         HttpResponse<Void> response = client.send(request,HttpResponse.BodyHandlers.discarding());
-        System.out.println(response.body());
-        System.out.println(response.statusCode());
+//        System.out.println(response_str.body());
+//        System.out.println(response.statusCode());
         assertEquals(200,response.statusCode());
         assertNotNull(response_str);
-//        String error = "{\"errorMessages\":[\"Failed Validation: active should be BOOLEAN, completed should be BOOLEAN\"]}";
     }
 
     // TODO: DELETE /projects/:id
@@ -358,7 +325,7 @@ public class TestProjects {
 
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+//        System.out.println(response.body());
         // change the expected value from 200 to 404 just to pass the test
         assertEquals(404,response.statusCode());
     }
@@ -372,8 +339,10 @@ public class TestProjects {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:4567/projects/1/categories")).GET()
                 .build();
-        HttpResponse<Void> response = client.send(request,
-                HttpResponse.BodyHandlers.discarding());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+        HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response_str.body());
+        assertNotNull(response_str);
         assertEquals(200,response.statusCode());
     }
 
@@ -386,38 +355,90 @@ public class TestProjects {
         var request = HttpRequest.newBuilder(URI.create("http://localhost:4567/projects/1/categories"))
                 .method("HEAD", HttpRequest.BodyPublishers.noBody())
                 .build();
-        HttpResponse<Void> response = client.send(request,
-                HttpResponse.BodyHandlers.discarding());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         HttpHeaders headers = response.headers();
         assertEquals(200,response.statusCode());
     }
 
-    // TODO: POST /projects/:id/categories, don't know how to test with postman
+    /*
+    POST /projects/:id/categories  --> success
+    create an instance of a relationship between categories and projects
+     */
     @Test
     public void test_projects_post_id_cat() throws IOException, InterruptedException {
-
-        var value = new HashMap<String, String>() {{
+        var project = new HashMap<String, Object>() {{
             put("title", "test1");
-            put("completed", "false");
-            put("active", "true");
+            put("completed", false);
+            put("active", true);
             put("description", "hello world");
         }};
 
-        var om = new ObjectMapper();
-        String requestBody = om.writeValueAsString(value);
+        var categorie = new HashMap<String, String>() {{
+           put("title", "link");
+           put("description", "realtion");
+        }};
+
+        ObjectMapper om = new ObjectMapper();
+        ObjectMapper om1 = new ObjectMapper();
+        String requestProp = om.writeValueAsString(project);
+        String requestCat = om1.writeValueAsString(categorie);
+
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:4567/projects"))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
+        HttpClient client1 = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/projects"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestProp)).build();
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/projects/2/categories"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestCat)).build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-        assertEquals(400,response.statusCode());
-        String error = "{\"errorMessages\":[\"Failed Validation: active should be BOOLEAN, completed should be BOOLEAN\"]}";
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response1 = client1.send(request1, HttpResponse.BodyHandlers.ofString());
 
-        assertEquals(error, response.body());
+//        System.out.println(response.body());
+//        System.out.println(response1.body());
+        assertEquals(201,response.statusCode());
+        assertNotNull(response);
+        assertNotNull(response1);
+    }
+
+    /*
+    POST /projects/:id/categories  --> fail
+    project id not found
+     */
+    @Test
+    public void test_projects_post_id_cat_f() throws IOException, InterruptedException {
+
+        var project = new HashMap<String, Object>() {{
+            put("title", "test1");
+            put("completed", false);
+            put("active", true);
+            put("description", "hello world");
+        }};
+
+        var categorie = new HashMap<String, String>() {{
+            put("title", "link");
+            put("description", "realtion");
+        }};
+
+        ObjectMapper om = new ObjectMapper();
+        ObjectMapper om1 = new ObjectMapper();
+        String requestProp = om.writeValueAsString(project);
+        String requestCat = om1.writeValueAsString(categorie);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpClient client1 = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/projects"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestProp)).build();
+        HttpRequest request1 = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/projects/970420/categories"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestCat)).build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response1 = client1.send(request1, HttpResponse.BodyHandlers.ofString());
+
+//        System.out.println(response.body());
+//        System.out.println(response1.body());
+        String error = "{\"errorMessages\":[\"Could not find parent thing for relationship projects/970420/categories\"]}";
+        assertEquals(404,response1.statusCode());
+        assertEquals(error, response1.body());
     }
 
     // TODO: DELETE /projects/:id/categories/:id
@@ -425,65 +446,24 @@ public class TestProjects {
     public void test_del_project_cat_id() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:4567/project/1/categories/1")).DELETE()
+                .uri(URI.create("http://localhost:4567/project/1/categories/1"))
+                .DELETE()
                 .build();
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+//        System.out.println(response.body());
         // change the expected value from 200 to 404 just to pass the test
         assertEquals(404,response.statusCode());
     }
 
-    // Sofia
     @Test
-    public void test_todos_post() throws IOException, InterruptedException {
-
-        var value = new HashMap<String, String>() {{
-            put("id", "9");
-            put("title", "test_todos");
-            put("doneStatus", "false");
-            put("description", "testing todos POST");
-        }};
-
-        var om = new ObjectMapper();
-        String requestBody = om.writeValueAsString(value);
+    public void delete() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:4567/todos"))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+        var request = HttpRequest.newBuilder(URI.create("http://localhost:4567/projects"))
+                .method("DELETE", HttpRequest.BodyPublishers.noBody())
                 .build();
-
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-        assertEquals(400, response.statusCode());
-    }
-
-    // Mahroo
-    @Test
-    public void test() throws IOException, InterruptedException{
-        var values = new HashMap<String, String>() {{
-            put("description","HELLO");
-            put("id","2");
-            put("title","Office");
-        }};
-
-        var objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(values);
-
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:4567/categories"))
-                .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
-                .build();
-
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-
-        System.out.println(response.body());
-        System.out.println(response.statusCode());
-        assertEquals(405,response.statusCode());
-
+        HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response_str.body());
     }
 
 }
