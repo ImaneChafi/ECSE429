@@ -15,9 +15,11 @@ https://www.baeldung.com/integration-testing-a-rest-api
 
 ### Important notes to get coding running
 
-Make sure you run the tests with JDK 11
+Make sure you run the tests with JDK 11 and JUnit 5
+
+Make sure the server is open by running  `java -jar runTodoManagerRestAPI-1.5.5.jar`
 
 You must have the following libraries:
-- com.fasterxml.jackson.core.jar
-- com.fasterxml.jackson.databind.jar
+- `com.fasterxml.jackson.core.jar`
+- `com.fasterxml.jackson.databind.jar`
 
