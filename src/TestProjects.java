@@ -1,8 +1,6 @@
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.jupiter.api.Test;
-import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.junit.Test;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,7 +8,10 @@ import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestProjects {
 
@@ -62,25 +63,40 @@ public class TestProjects {
     @Test
     public void test_todos_post() throws IOException, InterruptedException {
 
-        var value = new HashMap<String, String>() {{
-            put("id", "9");
+        var value = new HashMap<String, Object>() {{
+            //put("id", "9");
             put("title", "test_todos");
-            put("doneStatus", "false");
-            put("description", "testing todos POST");
+            put("doneStatus", false);
+            put("description", "");
         }};
 
         var om = new ObjectMapper();
         String requestBody = om.writeValueAsString(value);
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:4567/todos"))
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-        assertEquals(400,response.statusCode());
+        HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
+//        System.out.println(response_str.body());
+//        System.out.println(response.statusCode());
+        assertEquals(200,response.statusCode());
+        assertNotNull(response_str);
+//        var om = new ObjectMapper();
+//        String requestBody = om.writeValueAsString(value);
+//        HttpClient client = HttpClient.newHttpClient();
+//        HttpRequest request = HttpRequest.newBuilder()
+//                .uri(URI.create("http://localhost:4567/todos"))
+//                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+//                .build();
+//
+//        HttpResponse<String> response = client.send(request,
+//                HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+//        assertEquals(400,response.statusCode());
         //TODO: check it's the correct err msg
         //String error = "{\"errorMessages\":[\"Invalid Creation: Failed Validation: Not allowed to create with id\"]}";
         //Assertions.assertTrue(errorMessages.contains("Failed Validation"), errorMessages)
@@ -197,7 +213,7 @@ public class TestProjects {
 
         var value = new HashMap<String, String>() {{
             put("id", "9");
-            put("title", "test_todos");
+            put("title", "test_todos_id_post");
             put("doneStatus", "false");
             put("description", "testing todos with ID POST");
         }};
@@ -210,10 +226,16 @@ public class TestProjects {
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+        HttpResponse<String> response_str = client.send(request,HttpResponse.BodyHandlers.ofString());
+        HttpResponse<Void> response = client.send(request, HttpResponse.BodyHandlers.discarding());
         assertEquals(400,response.statusCode());
+        String error = "{\"errorMessages\":[\"Invalid Creation: Failed Validation: Not allowed to create with id\"]}";
+//        System.out.println(response_str.body());
+        assertEquals(error, response_str.body());
+//        HttpResponse<String> response = client.send(request,
+//                HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+//        assertEquals(400,response.statusCode());
         //TODO: check it's the correct err msg
         //String error = "{\"errorMessages\":[\"Invalid Creation: Failed Validation: Not allowed to create with id\"]}";
         //Assertions.assertTrue(errorMessages.contains("Failed Validation"), errorMessages)
