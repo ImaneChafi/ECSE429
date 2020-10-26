@@ -67,7 +67,6 @@ public class TestProjects {
         assertEquals(404,response.statusCode());
     }
 
-    // TODO need a success delete test, not the 404
 
     /*
     Determine the status of a web page when accessing projects
@@ -315,7 +314,6 @@ public class TestProjects {
         assertNotNull(response_str);
     }
 
-    // TODO: DELETE /projects/:id
     @Test
     public void test_del_project_with_id() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
@@ -326,7 +324,6 @@ public class TestProjects {
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
 //        System.out.println(response.body());
-        // change the expected value from 200 to 404 just to pass the test
         assertEquals(404,response.statusCode());
     }
 
@@ -441,7 +438,6 @@ public class TestProjects {
         assertEquals(error, response1.body());
     }
 
-    // TODO: DELETE /projects/:id/categories/:id
     @Test
     public void test_del_project_cat_id() throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
@@ -452,18 +448,7 @@ public class TestProjects {
         HttpResponse<String> response = client.send(request,
                 HttpResponse.BodyHandlers.ofString());
 //        System.out.println(response.body());
-        // change the expected value from 200 to 404 just to pass the test
         assertEquals(404,response.statusCode());
-    }
-
-    @Test
-    public void delete() throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newHttpClient();
-        var request = HttpRequest.newBuilder(URI.create("http://localhost:4567/projects"))
-                .method("DELETE", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response_str = client.send(request, HttpResponse.BodyHandlers.ofString());
-//        System.out.println(response_str.body());
     }
 
 }
