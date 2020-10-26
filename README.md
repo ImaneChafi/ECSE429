@@ -1,19 +1,15 @@
 # ECSE429
 ECSE 429 project repo!!
 
-### Junits made by the guy who did the app
+### Repo structure
 
-https://github.com/eviltester/thingifier/blob/master/todoManagerRestAuto/src/test/java/uk/co/compendiumdev/thingifier/tactical/postmanreplication/TodosCrudTest.java
+ShutdownTest.java : JUnit file for the shutdown command
 
-### Tutorial on how to use the Java Http Client
+Tests.java : JUnit files for all of the other endpoints (GET, HEAD, PUT, POST and DELETE for todos, projects, etc.)
 
-http://zetcode.com/java/httpclient/
+Screenshots folder: contains screenshots for charters 1, 2, 3 and 4
 
-### Tutorial on how to make Unit tests on Java Http Client
-
-https://www.baeldung.com/integration-testing-a-rest-api  
-
-### Important notes to get coding running
+### Important notes to get our JUnit code running
 
 Make sure you run the tests with JDK 11 and JUnit 5
 
@@ -24,3 +20,15 @@ You must have the following libraries:
 - `com.fasterxml.jackson.databind.jar`
 - `jackson-annotations.2.1.2`
 
+
+### Junits made by the creater of the app
+
+https://github.com/eviltester/thingifier/blob/master/todoManagerRestAuto/src/test/java/uk/co/compendiumdev/thingifier/tactical/postmanreplication/TodosCrudTest.java
+
+### Tutorial on how to use the Java Http Client
+
+http://zetcode.com/java/httpclient/
+
+### Tutorial on how to make Unit tests on Java Http Client
+
+https://www.baeldung.com/integration-testing-a-rest-api  
