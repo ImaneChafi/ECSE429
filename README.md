@@ -1,6 +1,10 @@
 # ECSE429
 ECSE 429 project repo!!
 
+**Group number:** 5
+
+**Group members:** Imane Chafi, Mahroo Rahman, Menglin He and Sofia Dieguez
+
 ### Repo structure
 
 ShutdownTest.java : JUnit file for the shutdown command
