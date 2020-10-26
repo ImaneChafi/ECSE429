@@ -22,4 +22,5 @@ Make sure the server is open by running  `java -jar runTodoManagerRestAPI-1.5.5.
 You must have the following libraries:
 - `com.fasterxml.jackson.core.jar`
 - `com.fasterxml.jackson.databind.jar`
+- `jackson-annotations.2.1.2`
 
