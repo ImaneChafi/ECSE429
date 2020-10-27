@@ -1,5 +1,5 @@
 # ECSE429
-ECSE 429 project repo!!
+ECSE 429 project repository
 
 **Group number:** 5
 
@@ -23,16 +23,3 @@ You must have the following libraries:
 - `com.fasterxml.jackson.core.jar`
 - `com.fasterxml.jackson.databind.jar`
 - `jackson-annotations.2.1.2`
-
-### Other
-#### Junits made by the creater of the app
-
-https://github.com/eviltester/thingifier/blob/master/todoManagerRestAuto/src/test/java/uk/co/compendiumdev/thingifier/tactical/postmanreplication/TodosCrudTest.java
-
-#### Tutorial on how to use the Java Http Client
-
-http://zetcode.com/java/httpclient/
-
-#### Tutorial on how to make Unit tests on Java Http Client
-
-https://www.baeldung.com/integration-testing-a-rest-api  
