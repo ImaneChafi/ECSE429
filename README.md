@@ -15,7 +15,7 @@ Screenshots folder: contains screenshots for charters 1, 2, 3 and 4
 
 ### Video of tests running
 
-https://drive.google.com/file/d/1sWGGSXxjHVi1j51k1x1LxcqPvnq1Yf8q/view?usp=sharing
+https://drive.google.com/file/d/1QFskiOQs9LHrvQYTvnWJja6vlBFjjvFV/view?usp=sharing
 
 ### Important notes to get our JUnit code running
 
