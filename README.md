@@ -19,7 +19,8 @@ Make sure you run the tests with JDK 11 and JUnit 5
 
 Make sure the server is open by running  `java -jar runTodoManagerRestAPI-1.5.5.jar`
 
-You must have the following libraries:
-- `com.fasterxml.jackson.core.jar`
-- `com.fasterxml.jackson.databind.jar`
-- `jackson-annotations.2.1.2`
+You must have the following libraries in the classpath of the project to run the JUnit tests:
+
+- `com.fasterxml.jackson.core.jar` download here: (http://www.java2s.com/Code/Jar/c/Downloadcomfasterxmljacksoncorejar.htm)
+- `com.fasterxml.jackson.databind.jar` download here: (http://www.java2s.com/Code/Jar/c/Downloadcomfasterxmljacksondatabindjar.htm)
+- `jackson-annotations.2.1.2` download here: (http://www.java2s.com/Code/Jar/j/Downloadjacksonannotations212sourcesjar.htm)
