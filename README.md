@@ -13,6 +13,10 @@ Tests.java : JUnit files for all of the other endpoints (GET, HEAD, PUT, POST an
 
 Screenshots folder: contains screenshots for charters 1, 2, 3 and 4
 
+### Video of tests running
+
+https://drive.google.com/file/d/1sWGGSXxjHVi1j51k1x1LxcqPvnq1Yf8q/view?usp=sharing
+
 ### Important notes to get our JUnit code running
 
 Make sure you run the tests with JDK 11 and JUnit 5
