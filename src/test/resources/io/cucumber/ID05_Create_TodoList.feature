@@ -22,4 +22,4 @@ Feature: create a to do list for a new class
   Scenario: The id is specified when creating a to do list (Error flow)
     Given the todoManager is running at the backend
     When the student requests to create a to do with id defined
-    Then an error message xx should be displayed
+    Then cannot create with id

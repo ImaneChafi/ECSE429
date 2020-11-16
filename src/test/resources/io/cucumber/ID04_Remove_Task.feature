@@ -23,8 +23,8 @@ Feature: remove task from to do list
 
   Scenario: There is no task in to todo list (Error flow)
     Given no task exist in the backend
-    When the student requests to delete task xxxx
-    Then an error message "" should be displayed
+    When the student requests to delete non-existing task
+    Then no task in backend
 
 
   Scenario: The todoManager is not running at the backend (Error flow)
