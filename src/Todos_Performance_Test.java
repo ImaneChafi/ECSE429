@@ -40,6 +40,8 @@ public class Todos_Performance_Test {
 			JOptionPane.showMessageDialog(frame, "Start Server on Terminal.");
 			exit(-1);
 		}
+		
+		 
 	}
 
 
