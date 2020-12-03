@@ -193,8 +193,10 @@ public class CreateProgram {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+        long start_t1 = System.nanoTime();
+        long start_t2 = System.nanoTime();
 
-        int num = 50;       // number of instances to generate, you can change the number to test the performance
+        int num = 100000;       // number of instances to generate, you can change the number to test the performance
         // create todos using random generator
         for (int i = 0; i <= num; i++){
             String title = RandomStringUtils.randomAlphabetic(5);
@@ -203,7 +205,7 @@ public class CreateProgram {
             boolean doneStatus = random.nextBoolean();
             create_todos(title, doneStatus, description);
         }
-
+        /*
         // create projects using random generator
         for (int i = 0; i <= num; i++){
             String title = RandomStringUtils.randomAlphabetic(5);
@@ -232,10 +234,20 @@ public class CreateProgram {
         delete_todos(3);
         delete_projects(2);
         delete_categories(3);
-        
+        */
         change_todos(4,"liu", true, "love");
         change_projects(3, "liu", true, true, "0530");
         change_categories(4, "liu", "hot party");
+
+        long T2_end = System.nanoTime();
+        long T1_end = System.nanoTime();
+        long T1 = (T1_end - start_t1);
+        long T2 = (T2_end - start_t2);
+
+        //Printing the statements to have a record of the performance time
+        System.out.print("T1: " + T1/1000000000);
+        System.out.println();
+        System.out.print("T2: " + T2/1000000000);
 
     }
 }
