@@ -33,6 +33,43 @@ public class CreateProgram {
     }
 
     /**
+     * helper method to delete a todos with id
+     * @param id the id of the todos you want to delete
+     * @throws Exception
+     */
+    public static void delete_todos(int id) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:4567/todos/"+id))
+                .DELETE().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+    }
+
+    /**
+     * helper method to update/change todos
+     * @param id the id of the todos you want to change
+     * @param title the title you would like to change with
+     * @param doneStatus the doneStatus you would like to change with
+     * @param description the description you would like to change with
+     * @throws Exception
+     */
+    public static void change_todos(int id, String title, boolean doneStatus, String description) throws Exception{
+        var todo = new HashMap<String, Object>() {{
+            put("title", title);
+            put("doneStatus", doneStatus);
+            put("description", description);
+        }};
+        var om = new ObjectMapper();
+        String requestBody = om.writeValueAsString(todo);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/todos/"+id))
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+    }
+
+    /**
      * helper method to create projects
      * @param title title of the project you want to create
      * @param completed completion status of the project
@@ -52,6 +89,45 @@ public class CreateProgram {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/projects"))
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+    }
+
+    /**
+     * helper method to delete projects with id
+     * @param id the id of the projects you want to delete
+     * @throws Exception
+     */
+    public static void delete_projects(int id) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:4567/projects/"+id))
+                .DELETE().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+    }
+
+    /**
+     * helper method to update/change projects
+     * @param id the id of the projects you want to change
+     * @param title the title you would like to change with
+     * @param completed the completed value you would like to change with
+     * @param active the active value you would like to change with
+     * @param description the description you would like to change with
+     * @throws Exception
+     */
+    public static void change_projects(int id, String title, boolean completed, boolean active, String description) throws Exception{
+        var todo = new HashMap<String, Object>() {{
+            put("title", title);
+            put("completed", completed);
+            put("active", active);
+            put("description", description);
+        }};
+        var om = new ObjectMapper();
+        String requestBody = om.writeValueAsString(todo);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/projects/"+id))
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody)).build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 //        System.out.println(response.body());
     }
@@ -77,13 +153,50 @@ public class CreateProgram {
     }
 
     /**
+     * helper method to delete categories with id
+     * @param id the id of the categories you want to delete
+     * @throws Exception
+     */
+    public static void delete_categories(int id) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:4567/categories/"+id))
+                .DELETE().build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+    }
+
+    /**
+     * helper method to update/change categories
+     * @param id the id of the categories you want to change
+     * @param title the title you would like to change with
+     * @param description the description you would like to change with
+     * @throws Exception
+     */
+    public static void change_categories(int id, String title, String description) throws Exception {
+        var todo = new HashMap<String, Object>() {{
+            put("title", title);
+            put("description", description);
+        }};
+        var om = new ObjectMapper();
+        String requestBody = om.writeValueAsString(todo);
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create("http://localhost:4567/categories/"+id))
+                .PUT(HttpRequest.BodyPublishers.ofString(requestBody)).build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//        System.out.println(response.body());
+    }
+
+    /**
      * populate the database for todos, projects, and categories using the methods defined above
      * @param args
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
+        long start_t1 = System.nanoTime();
+        long start_t2 = System.nanoTime();
 
-        int num = 50;       // number of instances to generate, you can change the number to test the performance
+        int num = 100000;       // number of instances to generate, you can change the number to test the performance
         // create todos using random generator
         for (int i = 0; i <= num; i++){
             String title = RandomStringUtils.randomAlphabetic(5);
@@ -92,7 +205,7 @@ public class CreateProgram {
             boolean doneStatus = random.nextBoolean();
             create_todos(title, doneStatus, description);
         }
-
+        /*
         // create projects using random generator
         for (int i = 0; i <= num; i++){
             String title = RandomStringUtils.randomAlphabetic(5);
@@ -110,12 +223,31 @@ public class CreateProgram {
             create_categories(title, description);
         }
 
-        // couple of instances created with known input values
-        create_todos("lyx", true, "0420");
-        create_todos("lyx", true, "0530");
-        create_projects("the9",false, false, "lyx is the queen");
-        create_projects("x queen",true, true, "lyx is the queen");
-        create_categories("love", "lyx");
-        create_categories("queen", "x queen lyx");
+        // couple of instances created with known input values to test the functionality of the functions
+        create_todos("lyx", true, "0420");  // id = 3
+        create_todos("lyx", true, "0530");  // id = 4
+        create_projects("the9",false, false, "lyx is the queen");   // id = 2
+        create_projects("x queen",true, true, "lyx is the queen");  // id = 3
+        create_categories("love", "lyx");           // id = 3
+        create_categories("queen", "x queen lyx");  // id = 4
+
+        delete_todos(3);
+        delete_projects(2);
+        delete_categories(3);
+        */
+        change_todos(4,"liu", true, "love");
+        change_projects(3, "liu", true, true, "0530");
+        change_categories(4, "liu", "hot party");
+
+        long T2_end = System.nanoTime();
+        long T1_end = System.nanoTime();
+        long T1 = (T1_end - start_t1);
+        long T2 = (T2_end - start_t2);
+
+        //Printing the statements to have a record of the performance time
+        System.out.print("T1: " + T1/1000000000);
+        System.out.println();
+        System.out.print("T2: " + T2/1000000000);
+
     }
 }
