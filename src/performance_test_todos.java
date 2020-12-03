@@ -33,7 +33,7 @@ public class performance_test_todos {
 		//Printing the statements to have a record of the performance time
 		System.out.print("\nT1 for test_todos_post: " + T1);
 
-		System.out.print("\nT2 for test_todos_post: " + T2);
+		System.out.print("\nT2 for test_todos_post: " + T2);//
 		System.out.print("\n");
 	}
 	/**
@@ -54,7 +54,7 @@ public class performance_test_todos {
 		long T1_end = System.nanoTime();
 		long T1 = (T1_end - start_t1);
 		long T2 = (T2_end - start_t2);
-				
+
 		//Printing the statements to have a record of the performance time
 		System.out.print("\nT1 for test_todo_id_delete: " + T1);
 		System.out.print("\nT2 for test_todo_id_delete: " + T2);
@@ -85,11 +85,11 @@ public class performance_test_todos {
 		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 		//        System.out.println(response.body());
 		long T2_end = System.nanoTime();
-		
+
 		long T1_end = System.nanoTime();
 		long T1 = (T1_end - start_t1);
 		long T2 = (T2_end - start_t2);
-				
+
 		//Printing the statements to have a record of the performance time
 		System.out.print("\nT1 for test_todos_put_works: " + T1);
 		System.out.print("\nT2 for test_todos_id_put_works: " + T2);
@@ -97,9 +97,49 @@ public class performance_test_todos {
 	}
 	public static void main(String[] args) throws Exception {
 
-		int num = 50;       // number of instances to generate, you can change the number to test the performance
+		int num = 10;       // number of instances to generate, you can change the number to test the performance
 		// create todos using random generator
 		for (int i = 0; i <= num; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean doneStatus = random.nextBoolean();
+			create_todos(title, doneStatus, description);
+		}
+
+		int num1 = 100;       // number of instances to generate, you can change the number to test the performance
+		// create todos using random generator
+		for (int i = 0; i <= num1; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean doneStatus = random.nextBoolean();
+			create_todos(title, doneStatus, description);
+		}
+
+		int num2 = 1000;       // number of instances to generate, you can change the number to test the performance
+		// create todos using random generator
+		for (int i = 0; i <= num2; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean doneStatus = random.nextBoolean();
+			create_todos(title, doneStatus, description);
+		}
+
+		int num3 = 10000;       // number of instances to generate, you can change the number to test the performance
+		// create todos using random generator
+		for (int i = 0; i <= num3; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean doneStatus = random.nextBoolean();
+			create_todos(title, doneStatus, description);
+		}
+
+		int num4 = 20000;       // number of instances to generate, you can change the number to test the performance
+		// create todos using random generator
+		for (int i = 0; i <= num4; i++){
 			String title = RandomStringUtils.randomAlphabetic(5);
 			String description = RandomStringUtils.randomAlphabetic(20);
 			Random random = new Random();
@@ -114,7 +154,7 @@ public class performance_test_todos {
 		// couple of instances created with known input values
 		create_todos("lyx", true, "0420");
 		delete_todos(3);
-        change_todos(4,"liu", true, "love");
+		change_todos(4,"liu", true, "love");
 
 
 	}
