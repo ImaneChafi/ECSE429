@@ -43,9 +43,9 @@ public class performance_test_projects {
 		//Printing the statements to have a record of the performance time
 		System.out.print("\nT1 for test_projects_post: " + T1);
 
-		System.out.print("\nT2 for test_projects_post: " + T2);
+		System.out.print("\nT2 for test_projects_post: " + T2);//
 		System.out.print("\n");
-	
+
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class performance_test_projects {
 		long T1_end = System.nanoTime();
 		long T1 = (T1_end - start_t1);
 		long T2 = (T2_end - start_t2);
-				
+
 		//Printing the statements to have a record of the performance time
 		System.out.print("\nT1 for test_projects_delete: " + T1);
 		System.out.print("\nT2 for test_projects_delete: " + T2);
@@ -99,11 +99,11 @@ public class performance_test_projects {
 		HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 		//        System.out.println(response.body());
 		long T2_end = System.nanoTime();
-		
+
 		long T1_end = System.nanoTime();
 		long T1 = (T1_end - start_t1);
 		long T2 = (T2_end - start_t2);
-				
+
 		//Printing the statements to have a record of the performance time
 		System.out.print("\nT1 for test_prijects_put_works: " + T1);
 		System.out.print("\nT2 for test_projects_put_works: " + T2);
@@ -117,9 +117,9 @@ public class performance_test_projects {
 	 */
 	public static void main(String[] args) throws Exception {
 
-		int num = 50;       // number of instances to generate, you can change the number to test the performance
 
 
+		int num = 10;       // number of instances to generate, you can change the number to test the performance
 
 		// create projects using random generator
 		for (int i = 0; i <= num; i++){
@@ -130,10 +130,58 @@ public class performance_test_projects {
 			boolean active = random.nextBoolean();
 			create_projects(title,completed, active, description);
 		}
-	       create_projects("x queen",true, true, "lyx is the queen");  // id = 3
-	        delete_projects(2);
-	        change_projects(3, "liu", true, true, "0530");
-	        
+
+		int num1 = 100;       // number of instances to generate, you can change the number to test the performance
+
+		// create projects using random generator
+		for (int i = 0; i <= num1; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean completed = random.nextBoolean();
+			boolean active = random.nextBoolean();
+			create_projects(title,completed, active, description);
+		}
+
+		int num2 = 1000;       // number of instances to generate, you can change the number to test the performance
+
+		// create projects using random generator
+		for (int i = 0; i <= num2; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean completed = random.nextBoolean();
+			boolean active = random.nextBoolean();
+			create_projects(title,completed, active, description);
+		}
+
+		int num3 = 10000;       // number of instances to generate, you can change the number to test the performance
+
+		// create projects using random generator
+		for (int i = 0; i <= num3; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean completed = random.nextBoolean();
+			boolean active = random.nextBoolean();
+			create_projects(title,completed, active, description);
+		}
+
+		int num4 = 20000;       // number of instances to generate, you can change the number to test the performance
+
+		// create projects using random generator
+		for (int i = 0; i <= num4; i++){
+			String title = RandomStringUtils.randomAlphabetic(5);
+			String description = RandomStringUtils.randomAlphabetic(20);
+			Random random = new Random();
+			boolean completed = random.nextBoolean();
+			boolean active = random.nextBoolean();
+			create_projects(title,completed, active, description);
+		}
+		create_projects("x queen",true, true, "lyx is the queen");  // id = 3
+		delete_projects(2);
+		change_projects(3, "liu", true, true, "0530");
+
 
 	}
 }
